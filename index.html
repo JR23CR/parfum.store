@@ -1,1 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfumería Elite | Guatemala</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap');
+        
+        body { font-family: 'Montserrat', sans-serif; background-color: #fdfbf7; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        
+        /* Estética de Lujo: Espacios en blanco y contrastes sobrios */
+        .bg-luxury-soft {
+            background-color: #fcfaf7;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 40l20-20M40 40l20 20M40 40L20 60M40 40L20 20' stroke='%23d4af37' stroke-width='0.3' fill='none' opacity='0.05'/%3E%3C/svg%3E");
+        }
 
+        .whatsapp-float {
+            position: fixed; bottom: 30px; right: 30px;
+            background: #1c1917; color: #d4af37;
+            width: 60px; height: 60px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; box-shadow: 0 10px 30px rgba(6, 78, 59, 0.3);
+            z-index: 1000; transition: all 0.3s ease;
+            border: 2px solid #d4af37;
+        }
+        .whatsapp-float:hover { transform: translateY(-5px); background: #d4af37; color: #ffffff; }
+
+        .product-card { transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .product-card:hover { transform: translateY(-10px); }
+        
+        /* Animación de entrada suave (Fade-in + Slide-up) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Estilo para el scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #fdfbf7; }
+        ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 10px; }
+    </style>
+</head>
+<style>
+    .text-shadow-sm {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+</style>
+<body class="text-stone-800 antialiased bg-luxury-soft min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-[100] border-b border-stone-100 py-6">
+        <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <!-- Search Predictiva -->
+            <div class="relative w-full md:w-64 order-2 md:order-1">
+                <input type="text" placeholder="Buscar aroma..." class="w-full bg-stone-50 border-none text-xs py-3 pl-12 focus:ring-1 focus:ring-amber-600 rounded-full">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 text-[10px]"></i>
+            </div>
+
+            <!-- Logo Central -->
+            <div class="text-center order-1 md:order-2">
+                <h1 class="text-3xl font-serif font-bold tracking-[0.4em] text-stone-900 uppercase">Al-Amazonia</h1>
+            </div>
+
+            <!-- Icons -->
+            <div class="flex gap-6 text-stone-600 order-3">
+                <i class="fa-solid fa-user cursor-pointer hover:text-amber-600 transition-colors"></i>
+                <div class="relative cursor-pointer hover:text-amber-600 transition-colors" onclick="toggleCart()">
+                    <i class="fa-solid fa-bag-shopping text-xl"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-amber-600 text-white text-[8px] font-bold rounded-full h-4 w-4 flex items-center justify-center shadow-sm">0</span>
+                </div>
+            </div>
+        </div>
+        <!-- Nav Minimalista -->
+        <nav class="flex justify-center flex-wrap gap-x-8 gap-y-2 mt-6 text-[10px] uppercase tracking-[0.2em] text-stone-700 font-semibold">
+            <a href="#" class="hover:text-amber-600 transition-colors">Todos</a>
+            <a href="#" class="hover:text-amber-600 transition-colors">Para Ella</a>
+            <a href="#" class="hover:text-amber-600 transition-colors">Para Él</a>
+            <a href="#" class="hover:text-amber-600 transition-colors">Unisex</a>
+            <a href="#" class="hover:text-amber-600 transition-colors">Notas Olfativas</a>
+            <a href="#" class="hover:text-amber-600 transition-colors">Ocasión</a>
+            <a href="#" class="hover:text-amber-600 transition-colors font-bold text-stone-900">Sets de Regalo</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative h-[85vh] flex items-center justify-start bg-stone-900 overflow-hidden px-8 md:px-24">
+        <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=1920&q=80" class="absolute inset-0 w-full h-full object-cover opacity-40 grayscale-[0.2]">
+        <div class="relative text-left text-white max-w-2xl reveal">
+            <h2 class="text-5xl md:text-7xl font-serif mb-6 leading-tight text-shadow-sm">La elegancia que se siente antes de llegar</h2>
+            <p class="text-sm uppercase tracking-[0.4em] mb-10 font-bold text-shadow-sm">Deja una huella imborrable con aromas de alta gama</p>
+            <a href="#product-grid" class="inline-block border-2 border-white px-12 py-5 text-[11px] uppercase tracking-[0.3em] font-bold hover:bg-white hover:text-stone-900 transition-all duration-500">Descubre tu aroma</a>
+        </div>
+    </section>
+
+    <!-- Filtro Sensorial -->
+    <section class="max-w-7xl mx-auto py-20 px-8">
+        <h3 class="text-center font-serif text-2xl mb-12 tracking-widest uppercase">Navega por Familia Olfativa</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <button class="group relative h-32 overflow-hidden border border-stone-100">
+                <div class="absolute inset-0 bg-stone-50 group-hover:bg-amber-50 transition-colors"></div>
+                <span class="relative z-10 text-[10px] uppercase tracking-[0.3em] font-bold">Cítricos</span>
+            </button>
+            <button class="group relative h-32 overflow-hidden border border-stone-100">
+                <div class="absolute inset-0 bg-stone-50 group-hover:bg-amber-50 transition-colors"></div>
+                <span class="relative z-10 text-[10px] uppercase tracking-[0.3em] font-bold">Amaderados</span>
+            </button>
+            <button class="group relative h-32 overflow-hidden border border-stone-100">
+                <div class="absolute inset-0 bg-stone-50 group-hover:bg-amber-50 transition-colors"></div>
+                <span class="relative z-10 text-[10px] uppercase tracking-[0.3em] font-bold">Orientales</span>
+            </button>
+            <button class="group relative h-32 overflow-hidden border border-stone-100">
+                <div class="absolute inset-0 bg-stone-50 group-hover:bg-amber-50 transition-colors"></div>
+                <span class="relative z-10 text-[10px] uppercase tracking-[0.3em] font-bold">Florales</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Productos -->
+    <main class="max-w-7xl mx-auto py-10 px-8">
+        <div class="flex justify-between items-end mb-12 border-b border-stone-100 pb-6">
+            <h3 class="font-serif text-3xl tracking-tighter">Nuestra Colección</h3>
+            <div class="flex gap-4 text-[10px] uppercase tracking-widest text-stone-400">
+                <span class="text-stone-900 font-bold border-b border-stone-900">Populares</span>
+                <span class="cursor-pointer hover:text-stone-900">Nuevos</span>
+            </div>
+        </div>
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+            <!-- Los productos se cargan dinámicamente -->
+        </div>
+    </main>
+
+    <!-- Sección de Regalos -->
+    <section class="bg-stone-900 text-white py-24 px-8 my-20">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 items-center gap-16">
+            <div class="reveal">
+                <h3 class="text-4xl font-serif mb-6">Sets de Regalo Premium</h3>
+                <p class="text-stone-400 mb-10 leading-relaxed">El arte de regalar. Nuestros sets incluyen empaque de lujo con sellos de cera y tarjetas personalizadas. La experiencia completa de Al-Amazonia en una caja.</p>
+                <button class="bg-amber-600 text-white px-10 py-4 text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-amber-700 transition-colors">Ver Colección de Regalo</button>
+            </div>
+            <div class="aspect-square bg-stone-800 reveal">
+                <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover opacity-80">
+            </div>
+        </div>
+    </section>
+
+    <!-- Prueba Social -->
+    <section class="max-w-7xl mx-auto py-20 px-8 text-center">
+        <h3 class="font-serif text-2xl mb-16 tracking-widest uppercase">Lo que dicen nuestros clientes</h3>
+        <div class="grid md:grid-cols-3 gap-12">
+            <div class="italic text-stone-600">
+                <p class="mb-4">"La duración es increíble, me puse el Khamrah por la mañana y por la noche seguía recibiendo cumplidos. 100% original."</p>
+                <span class="text-[10px] uppercase tracking-widest font-bold text-stone-900">— Maria G.</span>
+            </div>
+            <div class="italic text-stone-600">
+                <p class="mb-4">"El empaque es de otro nivel. Compré un set para regalo y mi esposa quedó fascinada. El servicio al cliente por WhatsApp es excelente."</p>
+                <span class="text-[10px] uppercase tracking-widest font-bold text-stone-900">— Roberto L.</span>
+            </div>
+            <div class="italic text-stone-600">
+                <p class="mb-4">"Buscaba algo único y el Asad superó mis expectativas. Se siente la calidad de los ingredientes árabes."</p>
+                <span class="text-[10px] uppercase tracking-widest font-bold text-stone-900">— Carlos M.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Garantía -->
+    <footer class="border-t border-stone-100 py-20 px-8 bg-white">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
+            <div class="flex gap-12">
+                <div class="text-center">
+                    <i class="fa-solid fa-certificate text-amber-600 mb-2"></i>
+                    <p class="text-[9px] uppercase tracking-widest font-bold">100% Original</p>
+                </div>
+                <div class="text-center">
+                    <i class="fa-solid fa-barcode text-amber-600 mb-2"></i>
+                    <p class="text-[9px] uppercase tracking-widest font-bold">Batch Code Verificable</p>
+                </div>
+                <div class="text-center">
+                    <i class="fa-solid fa-truck-fast text-amber-600 mb-2"></i>
+                    <p class="text-[9px] uppercase tracking-widest font-bold">Envíos Seguros</p>
+                </div>
+            </div>
+            <p class="text-[10px] text-stone-400 uppercase tracking-widest">© 2024 Al-Amazonia Boutique. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Botón WhatsApp -->
+    <a href="https://wa.me/50241072311?text=Hola,%20me%20gustaría%20consultar%20sobre%20un%20perfume" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Modal Carrito -->
+    <div id="cart-modal" class="fixed inset-0 bg-black/50 hidden z-[100] flex justify-end">
+        <div class="bg-[#fdfbf7] w-full max-w-md h-full p-10 overflow-y-auto shadow-2xl flex flex-col border-l border-[#d4af37]">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-xl font-serif uppercase tracking-widest text-[#064e3b]">Tu Selección Real</h3>
+                <button onclick="toggleCart()" class="text-stone-400 hover:text-[#064e3b]"><i class="fa-solid fa-xmark text-2xl"></i></button>
+            </div>
+            <div id="cart-items" class="space-y-8 flex-grow"></div>
+            <div class="mt-10 border-t pt-6">
+                <div class="flex justify-between text-lg mb-8">
+                    <span class="uppercase tracking-widest text-stone-400">Subtotal</span>
+                    <span id="cart-total">Q0.00</span>
+                </div>
+                <button onclick="checkout(event)" class="w-full bg-[#064e3b] text-[#d4af37] py-5 rounded-none uppercase tracking-[0.3em] text-xs font-bold hover:bg-[#0a5c46] transition-colors duration-500 disabled:opacity-50 border border-[#d4af37]">
+                    Finalizar Pedido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Catálogo con el producto solicitado
+        const products = [
+            { 
+                _id: "1", name: "Raghba for Men", brand: "Lattafa", 
+                imageUrl: "https://images.unsplash.com/photo-1557170334-a9632e77c6e4?auto=format&fit=crop&w=600&q=80", 
+                variants: [{ size: "3ml", price: 30 }, { size: "5ml", price: 50 }, { size: "10ml", price: 95 }],
+                tag: "Best Seller",
+                notas: { salida: "Fresco", corazon: "Aromático", fondo: "Amaderado" }
+            }
+        ];
+
+        let cart;
+        try {
+            cart = JSON.parse(localStorage.getItem('cart')) || [];
+        } catch (e) {
+            console.error("Error al cargar el carrito:", e);
+            cart = [];
+        }
+
+        // Lógica de ingeniería: Descuentos por volumen (10% a partir de 3, 15% a partir de 5)
+        function calculateSubtotal(price, qty) {
+            let discount = 0;
+            if (qty >= 5) discount = 0.15;
+            else if (qty >= 3) discount = 0.10;
+            return (price * qty) * (1 - discount);
+        }
+
+        // Actualización de precio en tiempo real
+        function updatePrice(productId, price) {
+            const priceDisplay = document.querySelector(`#prod-${productId} .current-price`);
+            const oldPriceDisplay = document.querySelector(`#prod-${productId} .old-price`);
+            
+            if (priceDisplay) priceDisplay.innerText = `Q ${parseFloat(price).toFixed(2)}`;
+            if (oldPriceDisplay) oldPriceDisplay.innerText = `Q ${(parseFloat(price) * 1.2).toFixed(2)}`;
+        }
+
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = products.map(p => `
+                <article class="bg-white overflow-hidden group relative flex flex-col product-card border border-stone-100 reveal" id="prod-${p._id}">
+                    <!-- Badge -->
+                    ${p.tag ? `<div class="absolute top-4 left-4 bg-stone-900 text-white text-[8px] px-3 py-1 z-10 tracking-[0.2em] font-bold uppercase">${p.tag}</div>` : ''}
+                    
+                    <!-- Imagen con efecto hover -->
+                    <div class="aspect-[4/5] overflow-hidden bg-stone-50 p-8">
+                        <img src="${p.imageUrl}" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" loading="lazy">
+                    </div>
+                    
+                    <div class="p-6 text-center flex-grow flex flex-col">
+                        <div class="mb-4">
+                            <p class="text-[8px] uppercase tracking-[0.3em] text-amber-600 mb-2 font-bold">${p.brand}</p>
+                            <h4 class="font-serif text-lg tracking-wide text-stone-900 mb-3">${p.name}</h4>
+                            <!-- Línea fina separadora -->
+                            <div class="w-10 h-[1px] bg-stone-100 mx-auto"></div>
+                        </div>
+
+                        <!-- Pirámide Olfativa Visual -->
+                        <div class="flex justify-center gap-4 mb-6 text-stone-400">
+                            <div title="Salida: ${p.notas.salida}"><i class="fa-solid fa-wind text-[10px]"></i></div>
+                            <div title="Corazón: ${p.notas.corazon}"><i class="fa-solid fa-heart text-[10px]"></i></div>
+                            <div title="Fondo: ${p.notas.fondo}"><i class="fa-solid fa-leaf text-[10px]"></i></div>
+                        </div>
+
+                        <!-- Sección de precios -->
+                        <div class="flex justify-center items-baseline gap-3 mb-6">
+                            <span class="text-stone-300 line-through text-xs font-light old-price">Q ${(p.variants && p.variants.length > 0 ? p.variants[0].price * 1.2 : 0).toFixed(2)}</span>
+                            <span class="text-stone-900 font-bold text-base tracking-wider current-price">Q ${(p.variants && p.variants.length > 0 ? p.variants[0].price : 0).toFixed(2)}</span>
+                        </div>
+
+                        <div class="flex gap-2 mb-6">
+                            ${p.variants ? p.variants.map((v, idx) => `
+                                <label class="flex-1">
+                                    <input type="radio" name="size-${p._id}" value="${v.size}" ${idx === 0 ? 'checked' : ''} class="hidden peer" onchange="updatePrice('${p._id}', ${v.price})">
+                                    <div class="text-[8px] text-center border border-stone-100 py-2 cursor-pointer peer-checked:bg-stone-900 peer-checked:text-white peer-checked:border-stone-900 transition-all uppercase tracking-widest">${v.size}</div>
+                                </label>
+                            `).join('') : ''}
+                        </div>
+
+                        <button 
+                            onclick="addToCart('${p._id}')" 
+                            class="w-full bg-stone-900 text-white py-4 hover:bg-amber-600 transition-all duration-500 uppercase tracking-[0.2em] text-[9px] font-bold active:scale-[0.98]"
+                        >
+                            Añadir a la Bolsa
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // Ingeniería de Animación: Intersection Observer para revelar productos al hacer scroll
+        function initRevealObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p._id === productId);
+            const selectedSize = document.querySelector(`input[name="size-${productId}"]:checked`).value;
+            const variant = product.variants.find(v => v.size === selectedSize);
+
+            const cartKey = `${productId}-${selectedSize}`;
+            const item = cart.find(i => i.cartKey === cartKey);
+
+            if (item) item.qty++;
+            else cart.push({ 
+                cartKey, productId, name: product.name, size: selectedSize, price: variant.price, qty: 1 
+            });
+
+            saveCart();
+            updateUI();
+            
+            // Feedback: Abrir carrito automáticamente al agregar el primer item
+            if (cart.length === 1) toggleCart();
+        }
+
+        function removeFromCart(cartKey) {
+            cart = cart.filter(i => i.cartKey !== cartKey);
+            saveCart();
+            updateUI();
+        }
+
+        function updateUI() {
+            document.getElementById('cart-count').innerText = cart.reduce((a, b) => a + b.qty, 0);
+            const itemsContainer = document.getElementById('cart-items');
+            
+            itemsContainer.innerHTML = cart.map(i => {
+                const subtotal = calculateSubtotal(i.price, i.qty);
+                return `
+                <div class="flex justify-between items-center border-b border-gray-100 pb-4">
+                    <div class="flex-1">
+                        <p class="font-bold">${i.name}</p>
+                        <p class="text-sm text-gray-500">${i.qty} x Q${i.price} [${i.size}]</p>
+                        ${i.qty >= 3 ? `<p class="text-[10px] text-amber-600 font-bold uppercase">Descuento aplicado</p>` : ''}
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold text-[#064e3b]">Q${subtotal.toFixed(2)}</p>
+                        <button onclick="removeFromCart('${i.cartKey}')" class="text-xs text-red-500 hover:underline">Eliminar</button>
+                    </div>
+                </div>
+                `;
+            }).join('');
+            
+            const total = cart.reduce((a, b) => a + calculateSubtotal(b.price, b.qty), 0);
+            document.getElementById('cart-total').innerText = `Q${total.toFixed(2)}`;
+        }
+
+        function toggleCart() {
+            document.getElementById('cart-modal').classList.toggle('hidden');
+        }
+
+        async function checkout(event) {
+            if (cart.length === 0) return alert("El carrito está vacío");
+            
+            let resumen = "✨ *NUEVO PEDIDO - AL-AMAZONIA* ✨\n";
+            resumen += "------------------------------------------\n";
+            cart.forEach(i => {
+                const sub = calculateSubtotal(i.price, i.qty);
+                resumen += `🔸 *${i.name}* (${i.size})\n`;
+                resumen += `   Cant: ${i.qty} | Subtotal: Q${sub.toFixed(2)}\n`;
+            });
+            resumen += "------------------------------------------\n";
+            resumen += `*TOTAL A PAGAR: ${document.getElementById('cart-total').innerText}*`;
+
+            // Opción 1: Enviar por Correo (mailto)
+            const emailDestino = "tu-correo@gmail.com"; // CAMBIA ESTO
+            const subject = encodeURIComponent("Nuevo Pedido - Al-Amazonia");
+            const body = encodeURIComponent(resumen);
+            
+            // Preguntar al usuario cómo prefiere enviar
+            const opcion = confirm("¿Deseas enviar el pedido por Correo? (Si prefieres WhatsApp, dale a Cancelar)");
+            
+            if (opcion) {
+                window.location.href = `mailto:${emailDestino}?subject=${subject}&body=${body}`;
+            } else {
+                // Opción 2: Enviar por WhatsApp
+                const waUrl = `https://wa.me/50241072311?text=${body}`;
+                window.open(waUrl, '_blank');
+            }
+
+            // Limpiar carrito después de enviar
+            cart = [];
+            saveCart();
+            updateUI();
+            toggleCart();
+        }
+
+        renderProducts();
+        initRevealObserver();
+        updateUI(); // Sincronizar UI al cargar la página
+    </script>
+</body>
+</html>
